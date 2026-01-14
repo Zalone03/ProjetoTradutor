@@ -1,5 +1,8 @@
 # 🌍 Tradutor Web — Tradução em Tempo Real com Voz
 
+<img width="1280" height="852" alt="image" src="https://github.com/user-attachments/assets/e819d689-dde1-45dd-a5ae-4c75f929a7fe" />
+
+
 Uma aplicação web moderna de tradução de textos com suporte a **reconhecimento de voz**, **tradução automática em tempo real**, **troca rápida de idiomas** e uma **interface simples**.
 
 Este projeto foi pensado para ser **100% frontend**, utilizando tecnologias nativas do navegador e a API pública **Mymemory**.
