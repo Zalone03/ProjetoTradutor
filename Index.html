@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tradutor</title>
+</head>
+
+<body>
+    <main class="container">
+
+        <section class="translate">
+            <div class="translate-body">
+                <textarea placeholder="Digite o texto..."></textarea>
+            </div>
+
+            <div class="translate-footer">
+                <select id="sourceLang"></select>
+                <div>
+                <button class="icon-button" id="micBtn">
+                    <img src="./speak.png" alt="Falar" />
+                </button>
+                <button class="icon-button" id="listenBtn">
+                    <img src="./listen.webp" alt="Ouvir" />
+                </button>
+                </div>
+            </div>
+
+        </section>
+
+        <button class="switch-button">
+            <img src="./swith.png" alt="Trocar idiomas" />
+        </button>
+
+        <section class="translate">
+            <div class="translate-body">
+                <p id="outputText" placegolder="Digite..."></p>
+                <select id="targetLang"></select>
+            </div>
+        </section>
+
+    </main>
+    <script src="./script.js"></script>
+</body>
+
+</html>
