@@ -8,8 +8,6 @@ const output = document.querySelector(".translate-body p");
 
 /* ===== IDIOMAS ===== */
 const languages = [
-  { code: "auto", label: "Detectar idioma" },
-
   { code: "pt-BR", label: "Português (Brasil)" },
   { code: "pt-PT", label: "Português (Portugal)" },
   { code: "en-US", label: "English (US)" },
