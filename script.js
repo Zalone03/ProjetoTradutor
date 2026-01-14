@@ -6,7 +6,6 @@ const micBtn = document.getElementById("micBtn");
 const textarea = document.querySelector("textarea");
 const output = document.querySelector(".translate-body p");
 
-/* ===== IDIOMAS ===== */
 const languages = [
   { code: "pt-BR", label: "Português (Brasil)" },
   { code: "pt-PT", label: "Português (Portugal)" },
@@ -46,7 +45,6 @@ function populate(select, allowAuto = false) {
 populate(sourceSelect, true);
 populate(targetSelect);
 
-/* ===== IDIOMA PADRÃO DO NAVEGADOR ===== */
 const browserLang = navigator.language || "en-US";
 sourceSelect.value = languages.some(l => l.code === browserLang)
   ? browserLang
@@ -54,8 +52,22 @@ sourceSelect.value = languages.some(l => l.code === browserLang)
 
 targetSelect.value = browserLang.startsWith("pt") ? "en-US" : "pt-BR";
 
-/* ===== TRADUÇÃO (MyMemory) ===== */
 let debounce;
+
+function isInvalidTranslation(input, output) {
+  if (!output) return true;
+
+  const lower = output.toLowerCase();
+
+  return (
+    output.length > input.length * 3 ||
+    lower.includes("reservation") ||
+    lower.includes("room") ||
+    lower.includes("hotel") ||
+    lower.includes("booking") ||
+    lower.includes("check-in")
+  );
+}
 
 async function translate() {
   const text = textarea.value.trim();
@@ -66,33 +78,43 @@ async function translate() {
 
   const from =
     sourceSelect.value === "auto"
-      ? ""
+      ? "auto"
       : sourceSelect.value.split("-")[0];
 
   const to = targetSelect.value.split("-")[0];
 
   const url =
-    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}` +
-    `&langpair=${from || "auto"}|${to}`;
+    `https://api.mymemory.translated.net/get` +
+    `?q=${encodeURIComponent(text)}` +
+    `&langpair=${from}|${to}` +
+    `&mt=1`;
 
   try {
     const res = await fetch(url);
     const data = await res.json();
-    output.textContent = data.responseData.translatedText;
+
+    const translated = data?.responseData?.translatedText;
+
+    if (isInvalidTranslation(text, translated)) {
+      output.textContent = "Tradução indisponível para este texto.";
+      return;
+    }
+
+    output.textContent = translated;
   } catch {
-    output.textContent = "Erro na tradução";
+    output.textContent = "Erro ao traduzir. Verifique sua conexão.";
   }
 }
 
 textarea.addEventListener("input", () => {
   clearTimeout(debounce);
-  debounce = setTimeout(translate, 400);
+  debounce = setTimeout(translate, 500);
 });
 
 sourceSelect.addEventListener("change", translate);
 targetSelect.addEventListener("change", translate);
 
-/* ===== SWITCH ===== */
+
 switchBtn.addEventListener("click", () => {
   if (sourceSelect.value === "auto") return;
 
@@ -105,7 +127,6 @@ switchBtn.addEventListener("click", () => {
   translate();
 });
 
-/* ===== VOZ → TEXTO ===== */
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
 
